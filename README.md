@@ -1,10 +1,7 @@
 # Laravel Starter Kit
 Based on [Laravel Starter Kit (Nunomaduro)](https://github.com/nunomaduro/laravel-starter-kit) with additional tools and configurations.
 
-## Why This Starter Kit?
-
-Modern PHP has evolved into a mature, type-safe language, yet many Laravel projects still operate with loose conventions and optional typing. This starter kit changes that paradigm by enforcing:
-
+## Features
 - **100% Type Coverage**: Every method, property, and parameter is explicitly typed
 - **Zero Tolerance for Code Smells**: Rector and PHPStan at maximum strictness catch issues before they become bugs
 - **Immutable-First Architecture**: Data structures favor immutability to prevent unexpected mutations
@@ -13,6 +10,8 @@ Modern PHP has evolved into a mature, type-safe language, yet many Laravel proje
 - **Just Better Laravel Defaults**: Thanks to **[Essentials](https://github.com/nunomaduro/essentials)** / strict models, auto eager loading, immutable dates, and more...
 - **Type-Safe Frontend Integration**: Automatic generation of TypeScript types from PHP models using laravel-data for seamless backend-frontend communication
 - **Strict Typescript Inertia + React frontend**: A fully typed Inertia + React frontend setup with Vite, ESLint, Prettier, and TailwindCSS
+- **Nix flake + Direnv**: Reproducible development environments with Nix and Direnv
+- **Dockerized with Laravel Sail**: Easy setup and deployment with Docker and Laravel Sail
 
 This isn't just another Laravel boilerplate—it's a statement that PHP applications can and should be built with the same rigor as strongly-typed languages like Rust or TypeScript.
 
