@@ -40,6 +40,8 @@ jobs:
           php-version: 8.4
           tools: composer:v2
           coverage: xdebug
+          # If using gitea, uncomment the line below and set the token in your repo secrets to a github token to prevent rate limiting
+          # github-token: '${{ secrets.COMPOSER_GITHUB_TOKEN }}'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
