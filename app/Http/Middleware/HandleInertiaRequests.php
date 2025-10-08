@@ -37,14 +37,14 @@ final class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
-    public function share(Request $request): InertiaSharedData
+    public function share(Request $request): array
     {
         return InertiaSharedData::from(
             array_merge(
                 parent::share($request),
                 $this->authData($request),
             )
-        );
+        )->toArray();
     }
 
     /**
