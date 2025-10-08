@@ -16,13 +16,19 @@
                     exec ./vendor/bin/sail $@'';
                 dev = pkgs.writeShellScriptBin "dev" ''
                     exec composer dev'';
-                test = pkgs.writeShellScriptBin "test" ''
-                    exec sail test'';
+                run-test = pkgs.writeShellScriptBin "run-test" ''
+                    exec sail composer test'';
                 install-deps = pkgs.writeShellScriptBin "install-deps" ''
                     composer install
                     bun install
                     bunx -b playwright install
                 '';
+                update-deps = pkgs.writeShellScriptBin "update-deps" ''
+                    sail composer update:requirements
+                    sail bunx -b playwright install
+                '';
+                lint = pkgs.writeShellScriptBin "lint" ''
+                    exec sail composer lint'';
             in {
                 # Define devShell with aliases
                 devShell = pkgs.mkShell {
@@ -36,8 +42,10 @@
                         postgresql
                         sail
                         dev
-                        test
+                        run-test
                         install-deps
+                        lint
+                        update-deps
                     ];
 
                     shellHook = ''
