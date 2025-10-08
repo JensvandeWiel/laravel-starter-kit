@@ -15,6 +15,9 @@ direnv allow
 # Install all dependencies
 install-deps
 
+# Copy the example environment file
+cp .env.example .env
+
 # Create the application key
 php artisan key:generate
 # Startup laravel sail
