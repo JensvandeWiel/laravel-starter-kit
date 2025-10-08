@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Data\Inertia\InertiaSharedData;
+use App\Data\UserData;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,13 +37,31 @@ final class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
-    public function share(Request $request): array
+    public function share(Request $request): InertiaSharedData
     {
-        return [
-            ...parent::share($request),
-            'auth' => [
-                'user' => fn () => \Illuminate\Support\Facades\Auth::user(),
-            ],
-        ];
+        return InertiaSharedData::from(
+            array_merge(
+                parent::share($request),
+                $this->authData($request),
+            )
+        );
+    }
+
+    /**
+     * Get the authentication data for the current request.
+     *
+     * @return array<string, mixed>
+     */
+    private function authData(Request $request): array
+    {
+        if ($user = $request->user()) {
+            return [
+                'auth' => [
+                    'user' => UserData::from($user),
+                ],
+            ];
+        }
+
+        return ['auth' => null];
     }
 }

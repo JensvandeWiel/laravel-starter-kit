@@ -1,6 +1,21 @@
 # Laravel Starter Kit
 Based on [Laravel Starter Kit (Nunomaduro)](https://github.com/nunomaduro/laravel-starter-kit) with additional tools and configurations.
 
+## Why This Starter Kit?
+
+Modern PHP has evolved into a mature, type-safe language, yet many Laravel projects still operate with loose conventions and optional typing. This starter kit changes that paradigm by enforcing:
+
+- **100% Type Coverage**: Every method, property, and parameter is explicitly typed
+- **Zero Tolerance for Code Smells**: Rector and PHPStan at maximum strictness catch issues before they become bugs
+- **Immutable-First Architecture**: Data structures favor immutability to prevent unexpected mutations
+- **Fail-Fast Philosophy**: Errors are caught at compile-time, not runtime
+- **Automated Code Quality**: Pre-configured tools ensure consistent, pristine code across your entire team
+- **Just Better Laravel Defaults**: Thanks to **[Essentials](https://github.com/nunomaduro/essentials)** / strict models, auto eager loading, immutable dates, and more...
+- **Type-Safe Frontend Integration**: Automatic generation of TypeScript types from PHP models using laravel-data for seamless backend-frontend communication
+- **Strict Typescript Inertia + React frontend**: A fully typed Inertia + React frontend setup with Vite, ESLint, Prettier, and TailwindCSS
+
+This isn't just another Laravel boilerplate—it's a statement that PHP applications can and should be built with the same rigor as strongly-typed languages like Rust or TypeScript.
+
 ### Initial Setup
 
 Navigate to your project and complete the setup:
@@ -40,6 +55,7 @@ You should see 100% test coverage and all quality checks passing.
 ### Development
 - `dev` - Starts Laravel server, queue worker, log monitoring, and Vite dev server concurrently
 - `artisan` - Shortcut to `sail artisan`
+- `generate-types` - Generates PHP Data Types to typescript types
 
 ### Code Quality
 - `lint` - Runs Rector (refactoring), Pint (PHP formatting), and Prettier (JS/TS formatting)
@@ -55,6 +71,7 @@ You should see 100% test coverage and all quality checks passing.
 
 ### Development
 - `composer dev` - Starts Laravel server, queue worker, log monitoring, and Vite dev server concurrently
+- `composer generate:types` - Generates PHP Data Types to typescript types
 
 ### Code Quality
 - `composer lint` - Runs Rector (refactoring), Pint (PHP formatting), and Prettier (JS/TS formatting)

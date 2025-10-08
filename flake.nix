@@ -33,6 +33,8 @@
                     exec sail composer test:lint'';
                 artisan = pkgs.writeShellScriptBin "artisan" ''
                     exec sail artisan $@'';
+                generate-types = pkgs.writeShellScriptBin "generate-types" ''
+                    exec sail artisan typescript:transform $@'';
             in {
                 # Define devShell with aliases
                 devShell = pkgs.mkShell {
@@ -52,6 +54,7 @@
                         update-deps
                         artisan
                         test-lint
+                        generate-types
                     ];
 
                     shellHook = ''
