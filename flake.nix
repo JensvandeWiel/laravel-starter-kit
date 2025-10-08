@@ -29,6 +29,10 @@
                 '';
                 lint = pkgs.writeShellScriptBin "lint" ''
                     exec sail composer lint'';
+                test-lint = pkgs.writeShellScriptBin "test-lint" ''
+                    exec sail composer test:lint'';
+                artisan = pkgs.writeShellScriptBin "artisan" ''
+                    exec sail artisan $@'';
             in {
                 # Define devShell with aliases
                 devShell = pkgs.mkShell {
@@ -46,6 +50,8 @@
                         install-deps
                         lint
                         update-deps
+                        artisan
+                        test-lint
                     ];
 
                     shellHook = ''

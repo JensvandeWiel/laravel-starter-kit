@@ -1,40 +1,5 @@
-<p align="center">
-    <a href="https://youtu.be/VhzP0XWGTC4" target="_blank">
-        <img src="/art/banner.png" alt="Overview Laravel Starter Kit" style="width:70%;">
-    </a>
-</p>
-
-<p>
-    <a href="https://github.com/nunomaduro/laravel-starter-kit/actions"><img src="https://github.com/nunomaduro/laravel-starter-kit/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://packagist.org/packages/nunomaduro/laravel-starter-kit"><img src="https://img.shields.io/packagist/dt/nunomaduro/laravel-starter-kit" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/nunomaduro/laravel-starter-kit"><img src="https://img.shields.io/packagist/v/nunomaduro/laravel-starter-kit" alt="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/nunomaduro/laravel-starter-kit"><img src="https://img.shields.io/packagist/l/nunomaduro/laravel-starter-kit" alt="License"></a>
-</p>
-
-**Laravel Starter Kit** is an ultra-strict, type-safe [Laravel](https://laravel.com) skeleton engineered for developers who refuse to compromise on code quality. This opinionated starter kit enforces rigorous development standards through meticulous tooling configuration and architectural decisions that prioritize type safety, immutability, and fail-fast principles.
-
-## Why This Starter Kit?
-
-Modern PHP has evolved into a mature, type-safe language, yet many Laravel projects still operate with loose conventions and optional typing. This starter kit changes that paradigm by enforcing:
-
-- **100% Type Coverage**: Every method, property, and parameter is explicitly typed
-- **Zero Tolerance for Code Smells**: Rector and PHPStan at maximum strictness catch issues before they become bugs
-- **Immutable-First Architecture**: Data structures favor immutability to prevent unexpected mutations
-- **Fail-Fast Philosophy**: Errors are caught at compile-time, not runtime
-- **Automated Code Quality**: Pre-configured tools ensure consistent, pristine code across your entire team
-- **Just Better Laravel Defaults**: Thanks to **[Essentials](https://github.com/nunomaduro/essentials)** / strict models, auto eager loading, immutable dates, and more...
-
-This isn't just another Laravel boilerplate—it's a statement that PHP applications can and should be built with the same rigor as strongly-typed languages like Rust or TypeScript.
-
-## Getting Started
-
-> **Requires [PHP 8.4+](https://php.net/releases/)**.
-
-Create your type-safe Laravel application using [Composer](https://getcomposer.org):
-
-```bash
-composer create-project nunomaduro/laravel-starter-kit --prefer-dist example-app
-```
+# Laravel Starter Kit
+Based on [Laravel Starter Kit (Nunomaduro)](https://github.com/nunomaduro/laravel-starter-kit) with additional tools and configurations.
 
 ### Initial Setup
 
@@ -43,31 +8,19 @@ Navigate to your project and complete the setup:
 ```bash
 cd example-app
 
-# Install PHP dependencies with optimized autoloader
-composer install
+# Enable nix flake using direnv
+cp .envrc.example .envrc
+direnv allow
 
-# Install and build frontend assets
-npm install
-npm run build
+# Install all dependencies
+install-deps
 
-# Configure your environment
-cp .env.example .env
+# Create the application key
 php artisan key:generate
-
-# Run database migrations
+# Startup laravel sail
+dev
+# Migrate the database
 php artisan migrate
-
-# Start the development server
-composer dev
-```
-
-### Optional: Browser Testing Setup
-
-If you plan to use Pest's browser testing capabilities:
-
-```bash
-npm install playwright
-npx playwright install
 ```
 
 ### Verify Installation
@@ -75,12 +28,27 @@ npx playwright install
 Run the test suite to ensure everything is configured correctly:
 
 ```bash
-composer test
+run-test
 ```
 
 You should see 100% test coverage and all quality checks passing.
 
-## Available Tooling
+## Available Tooling (shell (preferred))
+### Development
+- `dev` - Starts Laravel server, queue worker, log monitoring, and Vite dev server concurrently
+- `artisan` - Shortcut to `sail artisan`
+
+### Code Quality
+- `lint` - Runs Rector (refactoring), Pint (PHP formatting), and Prettier (JS/TS formatting)
+- `test-lint` - Dry-run mode for CI/CD pipelines
+
+### Testing
+- `run-test` - Runs the complete test suite (type coverage, unit tests, linting, static analysis)
+
+### Maintenance
+- `update-deps` - Updates all PHP and NPM dependencies to latest versions and also the puppeteer browsers
+
+## Available Tooling (composer)
 
 ### Development
 - `composer dev` - Starts Laravel server, queue worker, log monitoring, and Vite dev server concurrently
@@ -100,4 +68,4 @@ You should see 100% test coverage and all quality checks passing.
 
 ## License
 
-**Laravel Starter Kit** was created by **[Nuno Maduro](https://x.com/enunomaduro)** under the **[MIT license](https://opensource.org/licenses/MIT)**.
+**Laravel Starter Kit** was created by **Jens van de Wiel** under the **[MIT license](https://opensource.org/licenses/MIT)**.
