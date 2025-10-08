@@ -2,9 +2,9 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "tsc && vite build",
         "dev": "vite",
-        "lint": "prettier --write resources/ && eslint --stats --fix resources/",
+        "lint": "prettier --write resources/ && eslint --stats --fix . && tsc",
         "test:lint": "prettier --check resources/"
     },
     "devDependencies": {
@@ -29,7 +29,13 @@
         "vite": "^7.1.9"
     },
     "dependencies": {
+        "@inertiajs/react": "^2.2.7",
         "@types/node": "^24.7.0",
+        "@types/react": "^19.2.2",
+        "@types/react-dom": "^19.2.1",
+        "@vitejs/plugin-react": "^5.0.4",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
         "ts-loader": "^9.5.4",
         "typescript": "^5.9.3"
     }

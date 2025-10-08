@@ -8,7 +8,7 @@ import typescript from 'typescript-eslint';
 /** @type {import('eslint').Linter.Config[]} */
 export default [
     js.configs.recommended,
-    ...typescript.configs.recommended,
+    ...typescript.configs.strictTypeChecked,
     {
         ...react.configs.flat.recommended,
         ...react.configs.flat['jsx-runtime'], // Required for React 17+
@@ -16,6 +16,9 @@ export default [
             globals: {
                 ...globals.browser,
             },
+            parserOptions: {
+                projectService: true,
+            }
         },
         rules: {
             'react/react-in-jsx-scope': 'off',
