@@ -32,7 +32,7 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => ['required', 'accepted'],
         ])->validate();
 
-        return User::create([
+        return User::query()->create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
