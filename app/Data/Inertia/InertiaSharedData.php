@@ -14,5 +14,7 @@ final class InertiaSharedData extends Data
         public readonly ?InertiaAuthData $auth,
         /** @var object|array<string, object>|array<string, string>|array<string, array<string, string>> $errors */
         public array|object $errors,
+        public readonly string $locale,
+        public readonly string $fallbackLocale,
     ) {}
 }

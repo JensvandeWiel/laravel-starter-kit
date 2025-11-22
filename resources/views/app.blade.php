@@ -14,7 +14,7 @@
     @vite(['resources/js/app.tsx'])
     @inertiaHead
 </head>
-<body>
+<body class="font-sans antialiased bg-base-200 h-screen">
 @inertia
 </body>
 </html>

@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use App\Data\Inertia\InertiaSharedData;
 use App\Data\UserData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 
 final class HandleInertiaRequests extends Middleware
@@ -43,6 +44,10 @@ final class HandleInertiaRequests extends Middleware
             array_merge(
                 parent::share($request),
                 $this->authData($request),
+                [
+                    'locale' => App::getLocale(),
+                    'fallbackLocale' => App::getFallbackLocale(),
+                ],
             )
         )->toArray();
     }

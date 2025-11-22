@@ -21,5 +21,7 @@ declare namespace App.Data.Inertia {
             | { [key: string]: object }
             | { [key: string]: string }
             | { [key: string]: { [key: string]: string } };
+        locale: string;
+        fallbackLocale: string;
     };
 }

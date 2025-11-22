@@ -8,11 +8,14 @@ import { Button } from '@/components/button';
 import { Divider } from '@/components/divider';
 import { Link } from '@/components/link';
 import CardLayout from "@/layouts/CardLayout";
+import {useLaravelReactI18n} from "laravel-react-internationalization";
 
 const ForgotPassword = () => {
     const { data, setData, post, processing, errors, recentlySuccessful } = useForm({
         email: '',
     });
+
+    const {t, loading} = useLaravelReactI18n();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,21 +25,21 @@ const ForgotPassword = () => {
     return (
         <CardBody>
             <h1 className="text-xl font-bold">
-                Reset your password
+                {t('auth.reset-password' )}
             </h1>
             <p className="text-base-content/70">
-                Enter your email address and we'll send you a link to reset your password
+                {t('auth.reset-enter-credentials' )}
             </p>
 
             {recentlySuccessful && (
                 <div className="alert alert-success mb-4">
-                    <span>Password reset link sent! Check your email.</span>
+                    <span>{t('auth.reset-link-sent')}</span>
                 </div>
             )}
 
             <form onSubmit={handleSubmit}>
                 <Fieldset className="w-full">
-                    <Label>Email</Label>
+                    <Label>{t('auth.email')}</Label>
                     <Input
                         type="email"
                         placeholder="you@example.com"
@@ -59,33 +62,33 @@ const ForgotPassword = () => {
                     disabled={processing}
                     className="mt-6"
                 >
-                    {processing ? 'Sending...' : 'Send Reset Link'}
+                    {processing ? t('auth.sending') : t('auth.send-reset-link')}
                 </Button>
             </form>
 
-            <Divider>OR</Divider>
+            <Divider>{t('auth.or').toUpperCase()}</Divider>
 
             <div className="space-y-2 text-center text-sm">
                 <p className="text-base-content/70">
-                    Remember your password?{' '}
+                    {t('auth.remembered-password') +' '}
                     <Link
                         href="/login"
                         color="primary"
                         hover="onHover"
                         className="font-semibold"
                     >
-                        Back to login
+                        {t('auth.return-to-login')}
                     </Link>
                 </p>
                 <p className="text-base-content/70">
-                    Don't have an account?{' '}
+                    {t('auth.dont-have-account') +' '}
                     <Link
                         href="/register"
                         color="primary"
                         hover="onHover"
                         className="font-semibold"
                     >
-                        Create one
+                        {t('auth.create-account')}
                     </Link>
                 </p>
             </div>

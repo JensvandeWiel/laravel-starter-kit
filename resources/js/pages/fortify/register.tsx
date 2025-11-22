@@ -1,40 +1,38 @@
-import { useForm } from '@inertiajs/react';
+import {useForm} from '@inertiajs/react';
 import React from "react";
-import { Card, CardBody } from '@/components/card';
-import { Input } from '@/components/input';
-import { Fieldset } from '@/components/fieldset';
-import { Label } from '@/components/label';
-import { Checkbox } from '@/components/checkbox';
-import { Button } from '@/components/button';
-import { Divider } from '@/components/divider';
-import { Link } from '@/components/link';
+import {CardBody} from '@/components/card';
+import {Input} from '@/components/input';
+import {Fieldset} from '@/components/fieldset';
+import {Label} from '@/components/label';
+import {Checkbox} from '@/components/checkbox';
+import {Button} from '@/components/button';
+import {Divider} from '@/components/divider';
+import {Link} from '@/components/link';
 import CardLayout from "@/layouts/CardLayout";
+import {useLaravelReactI18n} from "laravel-react-internationalization";
 
 const Register = () => {
-    const { data, setData, post, processing, errors } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-        terms: false,
+    const {data, setData, post, processing, errors} = useForm({
+        name: '', email: '', password: '', password_confirmation: '', terms: false,
     });
+
+    const {t} = useLaravelReactI18n();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         post('/register');
     };
 
-    return (
-        <CardBody>
+    return (<CardBody>
             <h1 className="text-xl font-bold">
-                Create your account
+                {t('auth.create-your-account')}
             </h1>
             <p className="text-base-content/70">
-                Enter your details below to create a new account
+                {t('auth.register-enter-credentials')}
             </p>
             <form onSubmit={handleSubmit}>
                 <Fieldset className="w-full">
-                    <Label>Name</Label>
+                    <Label>{t('auth.name')}</Label>
                     <Input
                         type="text"
                         placeholder="John Doe"
@@ -44,11 +42,9 @@ const Register = () => {
                         disabled={processing}
                         required
                     />
-                    {errors.name && (
-                        <Label variant="error">
+                    {errors.name && (<Label variant="error">
                             {errors.name}
-                        </Label>
-                    )}
+                        </Label>)}
 
                     <Label>Email</Label>
                     <Input
@@ -60,13 +56,11 @@ const Register = () => {
                         disabled={processing}
                         required
                     />
-                    {errors.email && (
-                        <Label variant="error">
+                    {errors.email && (<Label variant="error">
                             {errors.email}
-                        </Label>
-                    )}
+                        </Label>)}
 
-                    <Label>Password</Label>
+                    <Label>{t('auth.password-name')}</Label>
                     <Input
                         type="password"
                         placeholder="••••••••"
@@ -76,13 +70,11 @@ const Register = () => {
                         disabled={processing}
                         required
                     />
-                    {errors.password && (
-                        <Label variant="error">
+                    {errors.password && (<Label variant="error">
                             {errors.password}
-                        </Label>
-                    )}
+                        </Label>)}
 
-                    <Label>Confirm Password</Label>
+                    <Label>{t('auth.confirm-password')}</Label>
                     <Input
                         type="password"
                         placeholder="••••••••"
@@ -92,11 +84,9 @@ const Register = () => {
                         disabled={processing}
                         required
                     />
-                    {errors.password_confirmation && (
-                        <Label variant="error">
+                    {errors.password_confirmation && (<Label variant="error">
                             {errors.password_confirmation}
-                        </Label>
-                    )}
+                        </Label>)}
 
                     <Label className={"mt-2"}>
                         <Checkbox
@@ -106,22 +96,20 @@ const Register = () => {
                             color="primary"
                         />
                         <span className="label-text">
-                                        I agree to the{' '}
+                                        {t('auth.i-agree-to')}{' '}
                             <Link
                                 href="/terms"
                                 color="primary"
                                 hover="onHover"
                                 className="font-semibold"
                             >
-                                            terms and conditions
+                                {t('auth.terms-and-privacy-policy')}
                                         </Link>
                                     </span>
                     </Label>
-                    {errors.terms && (
-                        <Label variant="error">
+                    {errors.terms && (<Label variant="error">
                             {errors.terms}
-                        </Label>
-                    )}
+                        </Label>)}
                 </Fieldset>
 
                 <Button
@@ -132,27 +120,26 @@ const Register = () => {
                     disabled={processing}
                     className="mt-6"
                 >
-                    {processing ? 'Creating account...' : 'Sign Up'}
+                    {processing ? t('auth.creating-account') : t('auth.create-account')}
                 </Button>
             </form>
 
-            <Divider>OR</Divider>
+            <Divider>{t('auth.or').toUpperCase()}</Divider>
 
             <div className="space-y-2 text-center text-sm">
                 <p className="text-base-content/70">
-                    Already have an account?{' '}
+                    {t('auth.already-have-account')}{' '}
                     <Link
                         href="/login"
                         color="primary"
                         hover="onHover"
                         className="font-semibold"
                     >
-                        Sign in
+                        {t('auth.sign-in')}
                     </Link>
                 </p>
             </div>
-        </CardBody>
-    );
+        </CardBody>);
 };
 
 Register.layout = (page: React.ReactNode) => <CardLayout>{page}</CardLayout>;
