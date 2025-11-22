@@ -6,8 +6,9 @@ export type AlertDirection = 'horizontal' | 'vertical';
 
 export interface AlertAction {
     label: string;
-    onClick: () => void;
+    onClick: (id: string) => void;
     variant?: 'primary' | 'secondary' | 'ghost' | 'error';
+    stayOpenOnClick?: boolean;
 }
 
 export interface AlertItem {
@@ -24,8 +25,10 @@ export interface AlertItem {
 
 interface AlertStore {
     alerts: AlertItem[];
+    exitingAlerts?: Set<string>;
     addAlert: (alert: Omit<AlertItem, 'id'>) => string;
     removeAlert: (id: string) => void;
+    isExiting: (id: string) => boolean;
 }
 
 const AlertStoreContext = React.createContext<AlertStore | null>(null);
@@ -40,6 +43,7 @@ export function useAlertStore(): AlertStore {
 
 export function AlertProvider({ children }: { children: React.ReactNode }) {
     const [alerts, setAlerts] = React.useState<AlertItem[]>([]);
+    const [exitingAlerts, setExitingAlerts] = React.useState<Set<string>>(new Set());
 
     const addAlert = (alert: Omit<AlertItem, 'id'>) => {
         const id = `alert-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -57,14 +61,35 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
         return id;
     };
 
-    const removeAlert = (id: string) => {
+    const deleteAlert = (id: string) => {
         setAlerts((prev) => prev.filter((alert) => alert.id !== id));
     };
+
+    const removeAlert = (id: string) => {
+        // Mark alert as exiting to trigger exit animation
+        setExitingAlerts((prev) => new Set([...prev, id]));
+
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+            deleteAlert(id);
+            setExitingAlerts((prev) => {
+                const newSet = new Set(prev);
+                newSet.delete(id);
+                return newSet;
+            });
+        }, 250); // Match the duration of exit animation
+    };
+
+    const isExiting = (id: string) => {
+        return exitingAlerts.has(id);
+    }
 
     const value: AlertStore = {
         alerts,
         addAlert,
+        exitingAlerts,
         removeAlert,
+        isExiting,
     };
 
     return (

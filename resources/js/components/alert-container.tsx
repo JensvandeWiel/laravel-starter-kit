@@ -3,37 +3,8 @@ import { useAlertStore } from '@/stores/alert-store';
 import { X } from 'lucide-react';
 import React from 'react';
 
-/**
- * AlertContainer component - displays alerts in the bottom-right corner
- * - Static width (384px / w-96)
- * - Grows vertically as needed
- * - Auto-dismissable alerts
- * - Positioned fixed at bottom-right
- * - Smooth animation in and out
- * - Supports action buttons and custom content
- *
- * Should be placed once in your root layout
- */
 export function AlertContainer() {
     const store = useAlertStore();
-    const [exitingAlerts, setExitingAlerts] = React.useState<Set<string>>(
-        new Set(),
-    );
-
-    const handleRemoveAlert = (id: string) => {
-        // Mark alert as exiting to trigger exit animation
-        setExitingAlerts((prev) => new Set([...prev, id]));
-
-        // Remove from DOM after animation completes
-        setTimeout(() => {
-            store.removeAlert(id);
-            setExitingAlerts((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(id);
-                return newSet;
-            });
-        }, 250); // Match the duration of exit animation
-    };
 
     const getButtonVariantClass = (variant?: 'primary' | 'secondary' | 'ghost' | 'error') => {
         switch (variant) {
@@ -55,7 +26,7 @@ export function AlertContainer() {
                 <div
                     key={alert.id}
                     style={{
-                        animation: exitingAlerts.has(alert.id)
+                        animation: store.isExiting(alert.id)
                             ? 'slideOutRight 0.25s ease-in-out forwards'
                             : 'slideInRight 0.3s ease-out forwards',
                     }}
@@ -75,8 +46,10 @@ export function AlertContainer() {
                                             <button
                                                 key={idx}
                                                 onClick={() => {
-                                                    action.onClick();
-                                                    handleRemoveAlert(alert.id);
+                                                    action.onClick(alert.id);
+                                                    if (action.stayOpenOnClick !== true) {
+                                                        store.removeAlert(alert.id);
+                                                    }
                                                 }}
                                                 className={`btn btn-sm ${getButtonVariantClass(action.variant)}`}
                                             >
@@ -86,7 +59,7 @@ export function AlertContainer() {
                                     </div>
                                 )}
                                 <button
-                                    onClick={() => handleRemoveAlert(alert.id)}
+                                    onClick={() => store.removeAlert(alert.id)}
                                     className="btn btn-ghost btn-sm btn-circle ml-auto"
                                     aria-label="Close alert"
                                 >
