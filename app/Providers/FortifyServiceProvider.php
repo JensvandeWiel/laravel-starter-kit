@@ -64,5 +64,9 @@ class FortifyServiceProvider extends ServiceProvider
                 'token' => $request->route('token'),
             ]);
         });
+
+        Fortify::verifyEmailView(function () {
+            return Inertia::render('fortify/verify-email');
+        });
     }
 }
