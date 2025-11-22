@@ -6,6 +6,7 @@ import { Divider } from '@/components/divider';
 import { Link } from '@/components/link';
 import CardLayout from "@/layouts/CardLayout";
 import { useLaravelReactI18n } from "laravel-react-internationalization";
+import {useAlert} from "@/composables/use-alert";
 
 interface VerifyEmailProps {
     status?: string;
@@ -14,10 +15,14 @@ interface VerifyEmailProps {
 const VerifyEmail: React.FC<VerifyEmailProps> = ({ status }) => {
     const { post, processing } = useForm({});
     const { t } = useLaravelReactI18n();
-
+    const alert = useAlert();
     const handleResend = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post('/email/verification-notification');
+        post('/email/verification-notification', {
+            onSuccess: () => {
+                alert.success(t('auth.verification-link-sent'));
+            }
+        });
     };
 
     return (
@@ -28,12 +33,6 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ status }) => {
             <p className="text-base-content/70">
                 {t('auth.verify-email-description')}
             </p>
-
-            {status === 'verification-link-sent' && (
-                <div className="alert alert-success mb-4">
-                    <span>{t('auth.verification-link-sent')}</span>
-                </div>
-            )}
 
             <form onSubmit={handleResend}>
                 <Button

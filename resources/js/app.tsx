@@ -5,6 +5,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { LaravelReactI18nProvider } from 'laravel-react-internationalization';
+import { AlertProvider } from '@/stores/alert-store';
+import { AlertContainer } from '@/components/alert-container';
 
 const appName =
     globalThis.document.getElementsByTagName('title')[0].innerText || 'Laravel';
@@ -32,8 +34,11 @@ void createInertiaApp({
 
 const ProviderChain = ({ children, locale, fallbackLocale }: { children: React.ReactNode, locale: string, fallbackLocale: string }) => {
     return <React.StrictMode>
-        <LaravelReactI18nProvider locale={locale} fallbackLocale={fallbackLocale} files={import.meta.glob('/lang/*.json', { eager: true })}>
-            {children}
-        </LaravelReactI18nProvider>
+        <AlertProvider>
+            <LaravelReactI18nProvider locale={locale} fallbackLocale={fallbackLocale} files={import.meta.glob('/lang/*.json', { eager: true })}>
+                {children}
+                <AlertContainer />
+            </LaravelReactI18nProvider>
+        </AlertProvider>
     </React.StrictMode>;
 }

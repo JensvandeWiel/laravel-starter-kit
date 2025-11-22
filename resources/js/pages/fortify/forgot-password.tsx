@@ -9,17 +9,23 @@ import { Divider } from '@/components/divider';
 import { Link } from '@/components/link';
 import CardLayout from "@/layouts/CardLayout";
 import {useLaravelReactI18n} from "laravel-react-internationalization";
+import {useAlert} from "@/composables/use-alert";
 
 const ForgotPassword = () => {
-    const { data, setData, post, processing, errors, recentlySuccessful } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         email: '',
     });
 
     const {t, loading} = useLaravelReactI18n();
+    const alert = useAlert();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post('/forgot-password');
+        post('/forgot-password', {
+            onSuccess: () => {
+                alert.success(t('auth.reset-link-sent'));
+            }
+        });
     };
 
     return (
@@ -30,12 +36,6 @@ const ForgotPassword = () => {
             <p className="text-base-content/70">
                 {t('auth.reset-enter-credentials' )}
             </p>
-
-            {recentlySuccessful && (
-                <div className="alert alert-success mb-4">
-                    <span>{t('auth.reset-link-sent')}</span>
-                </div>
-            )}
 
             <form onSubmit={handleSubmit}>
                 <Fieldset className="w-full">
